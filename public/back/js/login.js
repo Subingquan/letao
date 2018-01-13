@@ -67,15 +67,26 @@ $(function () {
     $.ajax({
       type:"post",
       url:"/employee/employeeLogin",
+      //dataType:"json",
       data: $form.serialize(),
-      success:function (data) {
+      success:function (info) {
         //如果成功，就跳转到首页
-        if(data.success){
+        if(info.success){
           location.href = "index.html";
         }
 
-        if(data.error === 1000){
-          //alert("密码错误")
+        if(info.error === 1000){
+          //alert(info.message)
+          //使用updateStatus方法，把用户名改成失败即可
+          // $form.data("bootstrapValidator")用于获取插件实例，通过这个实例可以调用方法
+          //3个参数
+          //1. 字段名    username
+          //2. 状态：    VALID  INVALID
+          //3. 显示哪个校验的内容
+         $form.data("bootstrapValidator").updateStatus("username", "INVALID", "callback");
+        }
+
+        if(info.error === 1001){
 
           $form.data("bootstrapValidator").updateStatus("password", "INVALID", "callback");
         }
