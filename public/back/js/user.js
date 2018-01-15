@@ -8,6 +8,8 @@ $(function () {
   var pageSize = 5; //每页的条数
 
   render();
+
+
   function render() {
     //1. 发送ajax请求，获取到用户数据
     $.ajax({
@@ -48,6 +50,36 @@ $(function () {
 
 
 
-//2. 通过模板引擎把数据渲染出来
+  //用户启用禁用功能
+  //1. 给禁用或者启用注册点击事件，需要注册委托事件
+  //2. 弹出模态框
+  $("tbody").on("click", ".btn",function () {
 
+    //让模态框显示
+    $("#userModal").modal("show");
+
+    //获取到id
+    var id = $(this).parent().data("id");
+    //获取到是否禁用
+    var isDelete = $(this).hasClass("btn-success")? 1 : 0;
+
+    $(".btn_confirm").off().on("click",function () {
+      $.ajax({
+        type:'post',
+        url:"/user/updateUser",
+        data:{
+          id:id,
+          isDelete:isDelete
+        },
+        success:function (info) {
+          if(info.success) {
+            //关闭模态框
+            $("#userModal").modal('hide');
+            //重新渲染页面
+            render();
+          }
+        }
+      })
+    })
+  });
 });
