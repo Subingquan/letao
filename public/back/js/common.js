@@ -49,6 +49,7 @@ $(function () {
       //让侧边栏隐藏
     $(".lt_aside").toggleClass("now");
     $(".lt_main").toggleClass("now");
+    $(".lt_header").toggleClass("now");
   })
 
 
